@@ -23,7 +23,11 @@ module.exports = {
                 '@cp': resolve('src/components'),
                 '@view': resolve('src/views')
             }
-        }
+        },
+        externals: {
+            "BMap": "BMap",
+            "BMap_Symbol_SHAPE_POINT": "BMap_Symbol_SHAPE_POINT"
+        },
     },
     chainWebpack: config => {
         config.module

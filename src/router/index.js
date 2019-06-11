@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Container from '@view/home/Container'
+import Welcome from '@view/welcome/Welcome'
 Vue.use(Router)
 
 /**
@@ -32,12 +32,12 @@ Vue.use(Router)
 export const constantRoutes = [
     {
         path: '/',
-        component: Container,
+        component: Welcome,
         redirect: '/',
         children: [
             {
                 path: '/',
-                component: () => import('@view/home/Container'),
+                component: () => import('@view/welcome/Welcome'),
                 name: '首页',
                 meta: { title: '首页', icon: 'home', affix: true }
             }
@@ -47,12 +47,7 @@ export const constantRoutes = [
         path: '/about',
         component: () => import('@view/about/About'),
         hidden: true
-    },
-    {
-        path: '/index',
-        component: () => import('@view/welcome/Welcome'),
-        hidden: true
-    },
+    }
 ]
 
 /**
