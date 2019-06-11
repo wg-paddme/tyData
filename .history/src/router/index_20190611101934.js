@@ -48,11 +48,6 @@ export const constantRoutes = [
         component: () => import('@view/about/About'),
         hidden: true
     },
-    {
-        path: '/index',
-        component: () => import('@view/welcome/Welcome'),
-        hidden: true
-    },
 ]
 
 /**

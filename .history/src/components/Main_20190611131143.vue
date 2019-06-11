@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import Welcome from "@view/welcome/Welcome";
+import Welcome from "@@view/welcome/Welcome";
 export default {
   components: { Welcome },
   data() {
