@@ -235,7 +235,7 @@
                 <province-count></province-count>
                 <!--<div class="chart-loader">
                   <div class="loader"></div>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -294,148 +294,139 @@
   </div>
 </template>
 <script>
-import "./style.less";
-import countTo from "vue-count-to";
-import echarts from "echarts";
-import BMap from "BMap";
-import ProgressRank from '@cp/ProgressRank'
-import TerminalRatio from '@cp/TerminalRatio'
-import WelcomeTeacher from '@cp/WelcomeTeacher'
-import ProvinceCount from '@cp/ProvinceCount'
-import { getConutInfos, getCSexChartData } from "@/api/server";
-import {
-  getConutInfos,
-  getCSexChartData,
-  getTopChartData,
-  getShiReportData
-} from "@/api/server";
+  import "./style.less";
+  import countTo from "vue-count-to";
+  import echarts from "echarts";
+  import BMap from "BMap";
+  import ProgressRank from '@cp/ProgressRank'
+  import TerminalRatio from '@cp/TerminalRatio'
+  import WelcomeTeacher from '@cp/WelcomeTeacher'
+  import ProvinceCount from '@cp/ProvinceCount'
+  import { getConutInfos, getCSexChartData } from "@/api/server";
 
-export default {
-  name: "",
-  components: {
-    countTo,
-    ProgressRank,
-    TerminalRatio,
-    WelcomeTeacher,
-    ProvinceCount
-  },
-  data() {
-    return {
-      startVal: 0,
-      enrolledNum: 0,
-      reportNum: 0,
-      linkNum: 6,
-      teacherNum: 33,
-      studentNum: 3333,
-      minoritiesNum: 2281,
-      top1Num: 220,
-      top2Num: 433,
-      top3Num: 100,
-      greenChannelNum: 3333,
-      longNum: 111
-    };
-  },
-  mounted() {
-    if (BMap) {
-     // this.initMap();
-    this.initCount();
-    this.getSexChart();
-    this.initTopChart();
-    this.initReportShiChart();
-
-    /* if (BMap) {
-      this.initMap();
-    }
-    this.initCity(); */
-    }
-  },
-  methods: {
-    initCount() {
-      getConutInfos().then(res => {
-        if (res.success) {
-          this.enrolledNum = res.data.enrolledNum;
-          this.reportNum = res.data.reportNum;
-        }
-      });
+  export default {
+    name: "",
+    components: {
+      countTo,
+      ProgressRank,
+      TerminalRatio,
+      WelcomeTeacher,
+      ProvinceCount
     },
-    getSexChart() {
-      getCSexChartData().then(res => {
-        if (res.success) {
-          const sexChart = echarts.init(
-            document.getElementById("sexsChart"),
-            "pie"
-          );
-          const sexChartOpt = {
-            title: {
-              text: "",
-              subtext: "",
-              left: "center"
-            },
-            legend: {
-              bottom: 0,
-              left: "center",
-              data: ["男生", "女生"],
-              textStyle: {
-                color: "#ffffff"
+    data() {
+      return {
+        startVal: 0,
+        enrolledNum: 0,
+        reportNum: 0,
+        linkNum: 6,
+        teacherNum: 33,
+        studentNum: 3333,
+        minoritiesNum: 2281,
+        top1Num: 220,
+        top2Num: 433,
+        top3Num: 100,
+        greenChannelNum: 3333,
+        longNum: 111
+      };
+    },
+    mounted() {
+      if (BMap) {
+        // this.initMap();
+        this.initCount();
+        this.getSexChart();
+        /* if (BMap) {
+          this.initMap();
+        }
+        this.initCity(); */
+      }
+    },
+    methods: {
+      initCount() {
+        getConutInfos().then(res => {
+          if (res.success) {
+            this.enrolledNum = res.data.enrolledNum;
+            this.reportNum = res.data.reportNum;
+          }
+        });
+      },
+      getSexChart() {
+        getCSexChartData().then(res => {
+          if (res.success) {
+            const sexChart = echarts.init(
+              document.getElementById("sexsChart"),
+              "pie"
+            );
+            const sexChartOpt = {
+              title: {
+                text: "",
+                subtext: "",
+                left: "center"
               },
-              itemWidth: 10,
-              itemHeight: 10
-            },
-            color: ["#00b7ee", "#32be8e"],
-            series: [
-              {
-                type: "pie",
-                radius: "65%",
-                center: ["50%", "50%"],
-                data: [],
-                label: {
-                  normal: {
-                    show: true,
-                    formatter: function(data) {
-                      return data.percent;
+              legend: {
+                bottom: 0,
+                left: "center",
+                data: ["男生", "女生"],
+                textStyle: {
+                  color: "#ffffff"
+                },
+                itemWidth: 10,
+                itemHeight: 10
+              },
+              color: ["#00b7ee", "#32be8e"],
+              series: [
+                {
+                  type: "pie",
+                  radius: "65%",
+                  center: ["50%", "50%"],
+                  data: [],
+                  label: {
+                    normal: {
+                      show: true,
+                      formatter: function(data) {
+                        return data.percent;
+                      }
+                    },
+                    emphasis: {
+                      show: true,
+                      textStyle: {
+                        fontSize: "30",
+                        fontWeight: "bold"
+                      }
                     }
                   },
-                  emphasis: {
-                    show: true,
-                    textStyle: {
-                      fontSize: "30",
-                      fontWeight: "bold"
+                  itemStyle: {
+                    emphasis: {
+                      shadowBlur: 10,
+                      shadowOffsetX: 0,
+                      shadowColor: "rgba(0, 0, 0, 0.5)"
                     }
                   }
-                },
-                itemStyle: {
-                  emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: "rgba(0, 0, 0, 0.5)"
-                  }
                 }
+              ],
+              animationDuration: 2000
+            };
+            sexChart.setOption(sexChartOpt);
+            var _data = res.data;
+            sexChart.setOption({
+              series: {
+                data: _data
               }
-            ],
-            animationDuration: 2000
-          };
-          sexChart.setOption(sexChartOpt);
-          var _data = res.data;
-          sexChart.setOption({
-            series: {
-              data: _data
-            }
-          });
+            });
+          }
+        });
+      },
+
+      initCity() {
+        var map = new BMap.Map("weatherInfo");
+
+        function myFun(result) {
+          var cityName = result.name;
+          map.setCenter(cityName);
+          //alert("当前定位城市:" + cityName);
         }
-      });
-    },
-
-    initCity() {
-      var map = new BMap.Map("weatherInfo");
-
-      function myFun(result) {
-        var cityName = result.name;
-        map.setCenter(cityName);
-        //alert("当前定位城市:" + cityName);
+        var myCity = new BMap.LocalCity();
+        myCity.get(myFun);
       }
-      var myCity = new BMap.LocalCity();
-      myCity.get(myFun);
     }
-  }
-};
+  };
 </script>
