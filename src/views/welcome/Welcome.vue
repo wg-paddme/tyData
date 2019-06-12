@@ -235,7 +235,7 @@
                 <province-count></province-count>
                 <!--<div class="chart-loader">
                   <div class="loader"></div>
-                </div>-->
+                </div>
               </div>
             </div>
           </div>
@@ -303,6 +303,12 @@ import TerminalRatio from '@cp/TerminalRatio'
 import WelcomeTeacher from '@cp/WelcomeTeacher'
 import ProvinceCount from '@cp/ProvinceCount'
 import { getConutInfos, getCSexChartData } from "@/api/server";
+import {
+  getConutInfos,
+  getCSexChartData,
+  getTopChartData,
+  getShiReportData
+} from "@/api/server";
 
 export default {
   name: "",
@@ -334,6 +340,9 @@ export default {
      // this.initMap();
     this.initCount();
     this.getSexChart();
+    this.initTopChart();
+    this.initReportShiChart();
+
     /* if (BMap) {
       this.initMap();
     }
