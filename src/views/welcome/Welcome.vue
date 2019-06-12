@@ -255,8 +255,8 @@
               <div class="flex-row-big">
                 <div class="flex-cell-inner flex-cell-unbottom">
                   <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-center">报道进度TOP5</h3>
-                    <div class="chart-box" id="weatherInfo">
+                    <h3 class="chart-title chart-title-center">报道进度TOP10</h3>
+                    <div class="chart-box" id="top_chart">
                       <div class="chart-loader">
                         <div class="loader"></div>
                       </div>
@@ -301,7 +301,7 @@
           <div class="flex-cell flex-cell-5" style="margin-left:0">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-center">实时报道人数</h3>
-              <div class="chart-box">
+              <div class="chart-box" id="chart_report">
                 <div class="chart-loader">
                   <div class="loader"></div>
                 </div>
@@ -318,7 +318,12 @@ import "./style.less";
 import countTo from "vue-count-to";
 import echarts from "echarts";
 import BMap from "BMap";
-import { getConutInfos, getCSexChartData } from "@/api/server";
+import {
+  getConutInfos,
+  getCSexChartData,
+  getTopChartData,
+  getShiReportData
+} from "@/api/server";
 
 export default {
   name: "",
@@ -344,6 +349,9 @@ export default {
   mounted() {
     this.initCount();
     this.getSexChart();
+    this.initTopChart();
+    this.initReportShiChart();
+
     /* if (BMap) {
       this.initMap();
     }
@@ -421,6 +429,196 @@ export default {
               data: _data
             }
           });
+        }
+      });
+    },
+    initTopChart() {
+      getTopChartData().then(res => {
+        if (res.success) {
+          const xData = [];
+          const yData = [];
+          const data = res.data;
+          const topChartBox = echarts.init(
+            document.getElementById("top_chart"),
+            "shine"
+          );
+          const topChartBoxOpt = {
+            tooltip: {
+              trigger: "axis",
+              axisPointer: {
+                type: "shadow"
+              }
+            },
+            grid: {
+              top: 10,
+              bottom: 10,
+              left: 60
+            },
+            xAxis: {
+              show: false,
+              type: "value"
+            },
+            yAxis: {
+              type: "category",
+              inverse: true,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: {
+                fontSize: 12,
+                color: "#ffffff"
+              }
+            },
+            series: [
+              {
+                type: "bar",
+                barCategoryGap: "60%",
+                label: {
+                  show: true,
+                  position: "right",
+                  fontSize: 12,
+                  color: "#ffffff",
+                  emphasis: {
+                    color: "#e6b600"
+                  }
+                },
+                itemStyle: {
+                  normal: {
+                    color: new echarts.graphic.LinearGradient(0, 1, 1, 1, [
+                      { offset: 0, color: "#b0c2f9" },
+                      { offset: 0.5, color: "#188df0" },
+                      { offset: 1, color: "#185bff" }
+                    ])
+                  },
+                  emphasis: {
+                    color: new echarts.graphic.LinearGradient(0, 1, 1, 1, [
+                      { offset: 0, color: "#b0c2f9" },
+                      { offset: 0.7, color: "#e6b600" },
+                      { offset: 1, color: "#ceac09" }
+                    ])
+                  }
+                }
+              }
+            ]
+          };
+          topChartBox.setOption(topChartBoxOpt);
+          for (let i in data) {
+            xData.push(data[i].count);
+            yData.push(data[i].name);
+          }
+          topChartBox.setOption({
+            yAxis: {
+              data: yData
+            },
+            series: [
+              {
+                name: "新生报到",
+                data: xData
+              }
+            ]
+          });
+        }
+      });
+    },
+    initReportShiChart() {
+      getShiReportData().then(res => {
+        if (res.success) {
+          var _data = res.data;
+          const reportChar = echarts.init(
+            document.getElementById("chart_report"),
+            "bar"
+          );
+          const reportChartBoxOpt = {
+            title: {
+              text: "",
+              subtext: ""
+            },
+            tooltip: {
+              trigger: "axis",
+              axisPointer: {
+                type: "shadow"
+              }
+            },
+            legend: {
+              data: ["招生人数", "报到人数"]
+            },
+            grid: {
+              left: 10,
+              right: 10,
+              bottom: 10,
+              containLabel: true
+            },
+            yAxis: {
+              type: "value",
+              axisLine: {
+                show: false
+              },
+              axisTick: {
+                show: false
+              },
+              axisLabel: {
+                fontSize: 12,
+                color: "#ffffff"
+              },
+              boundaryGap: [0, 0.01],
+              splitLine: {
+                lineStyle: {
+                  color: ["#0f384d"]
+                }
+              }
+            },
+            xAxis: {
+              data: [
+                "临床",
+                "计算机",
+                "养殖",
+                "助产",
+                "园艺",
+                "中医设备",
+                "中医学习",
+                "园艺22",
+                "园艺33",
+                "园艺3"
+              ],
+
+              axisTick: { show: false },
+              axisLabel: {
+                fontSize: 11,
+                color: "#ffffff",
+                interval: 0,
+
+                rotate: "-45"
+              }
+            },
+
+            animationDurationUpdate: 1200,
+            series: [
+              {
+                type: "bar",
+                itemStyle: {
+                  normal: {
+                    color: "#e5c473"
+                  }
+                },
+                silent: true,
+                barWidth: "20%",
+                barGap: "-100%",
+                data: [220, 240, 120, 100, 80, 168, 140, 120, 250, 135]
+              },
+              {
+                type: "bar",
+                barWidth: "20%",
+                barGap: "-100%",
+                z: 10,
+                itemStyle: {
+                  normal: {
+                    color: "#ce3948"
+                  }
+                },
+                data: [144, 124, 13, 25, 56, 54, 78, 75, 124, 110]
+              }
+            ]
+          };
+          reportChar.setOption(reportChartBoxOpt);
         }
       });
     },

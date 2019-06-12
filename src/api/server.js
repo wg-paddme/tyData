@@ -12,12 +12,20 @@ export const getCSexChartData = () => {
         method: 'get'
     })
 }
-
-
-
-export const getRank = () => {
+export const getTopChartData = () => {
     return axios.request({
-        url: '/pie',
+        url: '/getTop',
+        method: 'get'
+    })
+}
+
+
+
+
+
+export const getShiReportData = () => {
+    return axios.request({
+        url: '/getReportChart',
         method: 'get'
     })
 }
