@@ -232,9 +232,10 @@
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-noicon">总人数-生源地省份</h3>
               <div class="chart-box" id="dt">
-                <div class="chart-loader">
+                <province-count></province-count>
+                <!--<div class="chart-loader">
                   <div class="loader"></div>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -255,12 +256,8 @@
               <div class="flex-row-big">
                 <div class="flex-cell-inner flex-cell-unbottom">
                   <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-center">报道进度TOP5</h3>
-                    <div class="chart-box" id="weatherInfo">
-                      <div class="chart-loader">
-                        <div class="loader"></div>
-                      </div>
-                    </div>
+                    <h3 class="chart-title chart-title-center">报到进度排行TOP5</h3>
+                    <progress-rank></progress-rank>
                   </div>
                 </div>
               </div>
@@ -271,11 +268,7 @@
           <div class="flex-cell flex-cell-3">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-center">学院迎新教师之星</h3>
-              <div class="chart-box">
-                <div class="chart-loader">
-                  <div class="loader"></div>
-                </div>
-              </div>
+              <welcome-teacher></welcome-teacher>
             </div>
           </div>
           <div class="flex-cell flex-cell-3" style="margin-left:0">
@@ -290,24 +283,11 @@
           </div>
           <div class="flex-cell flex-cell-3" style="margin-left:0">
             <div class="chart-wrapper">
-              <h3 class="chart-title chart-title-center">办理终端占用比</h3>
-              <div class="chart-box">
-                <div class="chart-loader">
-                  <div class="loader"></div>
-                </div>
-              </div>
+              <h3 class="chart-title chart-title-center">办理终端占比</h3>
+              <terminal-ratio></terminal-ratio>
             </div>
           </div>
-          <div class="flex-cell flex-cell-5" style="margin-left:0">
-            <div class="chart-wrapper">
-              <h3 class="chart-title chart-title-center">实时报道人数</h3>
-              <div class="chart-box">
-                <div class="chart-loader">
-                  <div class="loader"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="flex-cell flex-cell-5" style="margin-left:0"></div>
         </div>
       </div>
     </div>
@@ -318,12 +298,20 @@ import "./style.less";
 import countTo from "vue-count-to";
 import echarts from "echarts";
 import BMap from "BMap";
+import ProgressRank from '@cp/ProgressRank'
+import TerminalRatio from '@cp/TerminalRatio'
+import WelcomeTeacher from '@cp/WelcomeTeacher'
+import ProvinceCount from '@cp/ProvinceCount'
 import { getConutInfos, getCSexChartData } from "@/api/server";
 
 export default {
   name: "",
   components: {
-    countTo
+    countTo,
+    ProgressRank,
+    TerminalRatio,
+    WelcomeTeacher,
+    ProvinceCount
   },
   data() {
     return {
@@ -342,12 +330,15 @@ export default {
     };
   },
   mounted() {
+    if (BMap) {
+     // this.initMap();
     this.initCount();
     this.getSexChart();
     /* if (BMap) {
       this.initMap();
     }
     this.initCity(); */
+    }
   },
   methods: {
     initCount() {
