@@ -1,11 +1,19 @@
 import axios from '@/utils/api.request'
 
-export const getConuts = () => {
+export const getConutInfos = () => {
     return axios.request({
-        url: '/counts',
+        url: '/getConuts',
         method: 'get'
     })
 }
+export const getCSexChartData = () => {
+    return axios.request({
+        url: '/pieChart',
+        method: 'get'
+    })
+}
+
+
 
 export const getRank = () => {
     return axios.request({

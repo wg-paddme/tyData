@@ -1,4 +1,6 @@
 /* full layout */
+@white: #ffffff;
+
 .full-container {
     width: 100%;
     height: 100%;
@@ -21,7 +23,7 @@
             text-align: center;
             font-size: 34px;
             font-weight: 400;
-            color: #fff;
+            color: @white;
         }
     }
 
@@ -43,10 +45,28 @@
         flex-direction: column;
     }
 
+    .flex-row-big {
+        -webkit-flex: 1.3;
+        -ms-flex: 1.3;
+        flex: 1.3;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
     .flex-row {
         -webkit-flex: 1;
         -ms-flex: 1;
         flex: 1;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .flex-row-big-half {
+        -webkit-flex: 0.7;
+        -ms-flex: 0.7;
+        flex: 0.7;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -61,13 +81,30 @@
         display: flex;
     }
 
+    .flex-row-half-big {
+        -webkit-flex: 0.4;
+        -ms-flex: 0.4;
+        flex: 0.4;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .flex-row-small {
+        -webkit-flex: 0.4;
+        -ms-flex: 0.4;
+        flex: 0.4;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
     .flex-cell {
         -webkit-flex: 1;
         -ms-flex: 1;
         flex: 1;
         margin: 8px;
         padding: 8px;
-        //border: 1px solid #cccccc
     }
 
     .flex-cell-inner {
@@ -119,18 +156,38 @@
         flex: 8;
     }
 
+    .news-wrapper {
+        position: relative;
+        height: 100%;
+
+        .news-list {
+            height: 2em;
+            font-size: 0.9em;
+            line-height: 2em;
+            color: @white;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
     .chart-wrapper {
         position: relative;
         height: 100%;
 
         .chart-title {
             height: 2em;
-            font-size: 1em;
+            font-size: 1.25em;
             font-weight: normal;
-            color: #ffffff;
+            color: @white;
             background-image: url("../../assets/images/chart_title.png");
             background-repeat: no-repeat;
             background-position: center bottom;
+        }
+
+        .chart-title-small {
+            font-size: 0.85em;
         }
 
         .chart-title-center {
@@ -143,10 +200,27 @@
 
         .chart-box {
             position: absolute;
-            top: 32px;
+            top: 2.5em;
             bottom: 0;
             left: 0;
             right: 0;
+            background: transparent;
+        }
+
+        .count-box {
+            .count-number {
+                color: #60f8f3;
+                font-size: 2em;
+            }
+
+            .count-number-small {
+                font-size: 1em;
+            }
+
+            .count-unit {
+                color: @white;
+                font-size: 0.75em;
+            }
         }
     }
 
