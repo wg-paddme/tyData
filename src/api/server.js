@@ -1,5 +1,12 @@
 import axios from '@/utils/api.request'
 
+export const getCityWeather = (data) => {
+    return axios.request({
+        url: 'http://api.map.baidu.com/telematics/v3/weather',
+        data,
+        method: 'post'
+    })
+}
 export const getConutInfos = () => {
     return axios.request({
         url: '/getConuts',

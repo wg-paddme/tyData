@@ -244,11 +244,8 @@
                 <div class="flex-cell-inner">
                   <div class="chart-wrapper">
                     <h3 class="chart-title chart-title-center">天气预报</h3>
-                    <div class="chart-box" id="weatherInfo">
-                      <div class="chart-loader">
-                        <div class="loader"></div>
-                      </div>
-                    </div>
+                    <div class="chart-box" id="weatherInfo"></div>
+                    <div id="xsx" style="display:none"></div>
                   </div>
                 </div>
               </div>
@@ -332,6 +329,8 @@ export default {
   },
   data() {
     return {
+      lat: "30.576279",
+      lng: "104.071216",
       startVal: 0,
       enrolledNum: 0,
       reportNum: 0,
@@ -347,6 +346,7 @@ export default {
     };
   },
   mounted() {
+    this.initCity();
     this.initCount();
     this.getSexChart();
     this.initTopChart();
@@ -624,15 +624,15 @@ export default {
     },
 
     initCity() {
-      var map = new BMap.Map("weatherInfo");
-
-      function myFun(result) {
-        var cityName = result.name;
-        map.setCenter(cityName);
-        //alert("当前定位城市:" + cityName);
-      }
+      var _this = this;
       var myCity = new BMap.LocalCity();
-      myCity.get(myFun);
+      myCity.get(res => {
+        if (res.center) {
+          _this.lat = res.center.lat;
+          _this.lng = res.center.lng;
+        }
+        console.log(res);
+      });
     }
   }
 };
