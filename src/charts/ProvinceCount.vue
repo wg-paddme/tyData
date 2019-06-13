@@ -30,6 +30,7 @@
             min: 0,
             max: 5000,
             calculable: true,
+            itemWidth: 10,
             inRange: {
               color: ['#50a3ba', '#eac736', '#d94e5d']
             },
@@ -39,8 +40,8 @@
           },
           geo: {
             map: 'china',
-            zoom: 1,
-            left: 60,
+            layoutCenter: ["50%", "50%"], //地图位置
+            layoutSize: "130%",
             label: {
               show: true,
               color: '#fff',
