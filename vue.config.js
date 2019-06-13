@@ -69,8 +69,6 @@ module.exports = {
     // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
     devServer: {
         https: false,
-        host: '192.168.2.22',
-        port: 8084,
         proxy: {
             '/api': {
                 target: '/',

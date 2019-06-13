@@ -80,6 +80,14 @@ export const getProvinceStudentCount = () => {
     method: 'get'
   })
 }
+/* 云南省招生数据 */getProvinceStudentCount
+export const getYunnanStudentCount = () => {
+  return axios.request({
+    url: '/getYnnan',
+    method: 'get'
+  })
+}
+
 
 /* 环节办理进度数据 */
 export const getLinkProgressRank = () => {
