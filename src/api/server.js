@@ -73,10 +73,18 @@ export const getWelcomeTeacherRank = () => {
   })
 }
 
-/* 省份招生数据 */getProvinceStudentCount
+/* 省份招生数据 */
 export const getProvinceStudentCount = () => {
   return axios.request({
     url: '/getProvinceStudentCount',
+    method: 'get'
+  })
+}
+
+/* 环节办理进度数据 */
+export const getLinkProgressRank = () => {
+  return axios.request({
+    url: '/getLinkProgressRank',
     method: 'get'
   })
 }

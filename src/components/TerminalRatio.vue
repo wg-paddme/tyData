@@ -15,7 +15,7 @@
       }
     },
     mounted() {
-      this.getTerminalRatio()
+      this.getTerminalRatio();
     },
     methods: {
       getTerminalRatio() {
