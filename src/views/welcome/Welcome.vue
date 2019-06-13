@@ -232,8 +232,8 @@
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-noicon">总人数-生源地省份</h3>
               <div class="chart-box" id="dt">
-                <!--  <province-count></province-count> -->
-                <yunNanChart></yunNanChart>
+                <province-count></province-count>
+                <!-- <yunNanChart></yunNanChart> -->
                 <!--<div class="chart-loader">
                   <div class="loader"></div>
                 </div>-->
@@ -302,9 +302,9 @@
                 </div>
               </div>
               <div class="flex-row">
-                <div class="flex-cell-inner flex-cell-unbottom">
+                <div class="flex-cell flex-cell-unbottom">
                   <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-center">报道进度TOP10</h3>
+                    <h3 class="chart-title chart-title-center">报道进度TOP5</h3>
                     <div class="chart-box" id="top_chart">
                       <div class="chart-loader">
                         <div class="loader"></div>
