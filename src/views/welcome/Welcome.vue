@@ -232,7 +232,8 @@
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-noicon">总人数-生源地省份</h3>
               <div class="chart-box" id="dt">
-                <province-count></province-count>
+                <!--  <province-count></province-count> -->
+                <yunNanChart></yunNanChart>
                 <!--<div class="chart-loader">
                   <div class="loader"></div>
                 </div>-->
@@ -358,7 +359,8 @@ import ProgressRank from "@chart/ProgressRank";
 import TerminalRatio from "@chart/TerminalRatio";
 import WelcomeTeacher from "@chart/WelcomeTeacher";
 import ProvinceCount from "@chart/ProvinceCount";
-import LinkProgress from "@chart/LinkProgress"
+import LinkProgress from "@chart/LinkProgress";
+import yunNanChart from "@chart/yunnan";
 import {
   getConutInfos,
   getCSexChartData,
@@ -376,7 +378,8 @@ export default {
     TerminalRatio,
     WelcomeTeacher,
     ProvinceCount,
-    LinkProgress
+    LinkProgress,
+    yunNanChart
   },
   data() {
     return {

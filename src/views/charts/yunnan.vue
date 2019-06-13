@@ -4,22 +4,16 @@
 <script>
 import { getYunnanStudentCount } from "@/api/server";
 import echarts from "echarts";
-import "echarts/map/js/china.js";
+import "echarts/map/js/province/yunnan.js";
 export default {
   data() {
     return {};
   },
   mounted() {
     const echart = echarts.init(document.getElementById("yunnanCount"));
-    getProvinceStudentCount().then(res => {
+    getYunnanStudentCount().then(res => {
       const data = res.data;
       const options = {
-        tooltip: {
-          trigger: "item",
-          formatter: function(params) {
-            return params.name + " : " + params.value[0];
-          }
-        },
         grid: {
           left: 10
         },
@@ -36,9 +30,10 @@ export default {
           }
         },
         geo: {
-          map: "yunnan",
+          map: "云南",
           layoutCenter: ["50%", "50%"], //地图位置
-          layoutSize: "130%",
+          layoutSize: "100%",
+          zoom: 1,
           label: {
             show: true,
             color: "#fff",
@@ -61,7 +56,7 @@ export default {
           {
             name: "studentNumber",
             type: "map",
-            map: "china",
+            map: "云南",
             roam: false,
             label: {
               normal: {
