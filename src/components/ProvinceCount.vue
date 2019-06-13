@@ -16,9 +16,6 @@
       const echart = echarts.init(document.getElementById('provinceCount'));
       getProvinceStudentCount().then(res => {
         const data = res.data;
-        const lagendData = data.slice(0,5).map(item => item.name);
-
-        console.log(lagendData);
         const options = {
           tooltip: {
             trigger: 'item',

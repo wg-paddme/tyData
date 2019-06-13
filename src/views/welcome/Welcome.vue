@@ -347,11 +347,7 @@
           <div class="flex-cell flex-cell-3" style="margin-left:0">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-center">环节办理进度</h3>
-              <div class="chart-box" id="ss">
-                <div class="chart-loader">
-                  <div class="loader"></div>
-                </div>
-              </div>
+              <link-progress></link-progress>
             </div>
           </div>
           <div class="flex-cell flex-cell-3" style="margin-left:0">
@@ -384,6 +380,7 @@ import ProgressRank from "@cp/ProgressRank";
 import TerminalRatio from "@cp/TerminalRatio";
 import WelcomeTeacher from "@cp/WelcomeTeacher";
 import ProvinceCount from "@cp/ProvinceCount";
+import LinkProgress from "@cp/LinkProgress"
 import {
   getConutInfos,
   getCSexChartData,
@@ -399,7 +396,8 @@ export default {
     ProgressRank,
     TerminalRatio,
     WelcomeTeacher,
-    ProvinceCount
+    ProvinceCount,
+    LinkProgress
   },
   data() {
     return {
