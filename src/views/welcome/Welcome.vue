@@ -255,61 +255,36 @@
                           <div class="flex-row" style="margin-top:0.75em">
                             <div class="flex-cell flex-cell-3 flex-cell-full noborder">
                               <div class="icon-weather">
-                                <img
-                                  class="icon-img"
-                                  src="https://cdn.heweather.com/cond_icon/100.png"
-                                >
+                                <img class="icon-img" :src="iconImg">
                               </div>
                               <div class="text-weather">
-                                <span style="font-size: 2.25em;color:#60f8f3;">33&#176;</span>
-                                <span style="font-size: 0.9em;">晴</span>
+                                <span
+                                  style="font-size: 2.05em;color:#60f8f3;"
+                                >{{todayTemperature}}&#176;</span>
+                                <span style="font-size: 0.9em;">{{todayWeather}}</span>
                               </div>
                               <div class="text-weather">
-                                <span style="font-size:0.85em">21~33&#8451;</span>
+                                <span
+                                  style="font-size:0.85em"
+                                >{{todayTempMin}}~{{todayTempMax}}&#8451;</span>
                               </div>
                             </div>
                             <div class="flex-cell flex-cell-6 flex-cell-full noborder">
                               <div class="flex-row">
-                                <div class="flex-cell flex-cell-2 flex-cell-full-border">
+                                <div
+                                  class="flex-cell flex-cell-2 flex-cell-full-border"
+                                  v-model="nextThreeWeather"
+                                  v-for="(item,index) in nextThreeWeather"
+                                  :key="index"
+                                >
                                   <div class="text-weather">
-                                    <span style="font-size:0.85em">6月14日</span>
+                                    <span style="font-size:0.75em;color:#60f8f3;">{{item.nextDate}}</span>
                                   </div>
                                   <div class="icon-weather">
-                                    <img
-                                      class="icon-img-small"
-                                      src="https://cdn.heweather.com/cond_icon/100.png"
-                                    >
+                                    <img class="icon-img-small" :src="item.iconImage">
                                   </div>
                                   <div class="text-weather">
-                                    <span style="font-size:0.85em">阴</span>
-                                  </div>
-                                </div>
-                                <div class="flex-cell flex-cell-2 flex-cell-full-border">
-                                  <div class="text-weather">
-                                    <span style="font-size:0.85em">6月14日</span>
-                                  </div>
-                                  <div class="icon-weather">
-                                    <img
-                                      class="icon-img-small"
-                                      src="https://cdn.heweather.com/cond_icon/100.png"
-                                    >
-                                  </div>
-                                  <div class="text-weather">
-                                    <span style="font-size:0.85em">阴</span>
-                                  </div>
-                                </div>
-                                <div class="flex-cell flex-cell-2 flex-cell-full-border">
-                                  <div class="text-weather">
-                                    <span style="font-size:0.85em">6月14日</span>
-                                  </div>
-                                  <div class="icon-weather">
-                                    <img
-                                      class="icon-img-small"
-                                      src="https://cdn.heweather.com/cond_icon/100.png"
-                                    >
-                                  </div>
-                                  <div class="text-weather">
-                                    <span style="font-size:0.85em">阴</span>
+                                    <span style="font-size:0.85em;color:#60f8f3;">{{item.weather}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -386,7 +361,8 @@ import {
   getCSexChartData,
   getTopChartData,
   getShiReportData,
-  getWeatherData
+  getWeatherData,
+  getWeatherNowData
 } from "@/api/server";
 
 export default {
@@ -405,6 +381,12 @@ export default {
       lng: "104.071216",
       todayData: "60-13 周四",
       locationData: "成都",
+      iconImg: "https://cdn.heweather.com/cond_icon/100.png",
+      todayTemperature: "20",
+      todayTempMin: "16",
+      todayTempMax: "30",
+      todayWeather: "晴",
+      nextThreeWeather: [],
       startVal: 0,
       enrolledNum: 0,
       reportNum: 0,
@@ -704,20 +686,51 @@ export default {
       });
     },
     getTq() {
+      getWeatherNowData({
+        type: "forecast",
+        location: this.lng + "," + this.lat,
+        ak: "5e24beb24f37462b8ac7b1d0135600bb"
+      }).then(res => {
+        if (res.success) {
+          var _data = res.data[0];
+          this.locationData = _data.basic.parent_city;
+          const dates = this.formatTime(_data.update.loc);
+          this.todayData = dates.time + "  " + dates.week;
+          this.initTodayWeather(_data.now);
+        }
+      });
       getWeatherData({
         type: "forecast",
         location: this.lng + "," + this.lat,
         ak: "5e24beb24f37462b8ac7b1d0135600bb"
       }).then(res => {
         if (res.success) {
-          var _data = res.data.HeWeather6[0];
-          this.locationData = _data.basic.parent_city;
-          const dates = this.formatTime(_data.update.loc);
-          this.todayData = dates.time + "  " + dates.week;
+          var _data = res.data;
+          for (var i = 0; i < 4; i++) {
+            if (i == 0) continue;
+            else {
+              var obj = _data[0]["daily_forecast"][i];
+              this.nextThreeWeather.push({
+                nextDate: this.formatTime(obj.date).time,
+                iconImage: this.getNowWeatherIcon(obj.cond_txt_d),
+                weather: obj.cond_txt_d
+              });
+            }
+          }
+          this.initNextWeather(_data[0].daily_forecast[0]);
         }
       });
     },
-    initWeather() {},
+    initTodayWeather(data) {
+      this.iconImg = this.getNowWeatherIcon(data.cond_txt);
+      this.todayTemperature = data.tmp;
+      this.todayWeather = data.cond_txt;
+    },
+    initNextWeather(data) {
+      this.todayTempMin = data.tmp_min;
+      this.todayTempMax = data.tmp_max;
+      console.log(this.nextThreeWeather);
+    },
     getNowWeatherIcon(cond_txt) {
       var weatherIcon = "";
       if (cond_txt == "晴") {
