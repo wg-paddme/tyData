@@ -232,24 +232,97 @@
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-noicon">总人数-生源地省份</h3>
               <div class="chart-box" id="dt">
-                <div class="chart-loader">
+                <province-count></province-count>
+                <!--<div class="chart-loader">
                   <div class="loader"></div>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
           <div class="flex-cell flex-cell-2" style="margin-left:0">
             <div class="flex-col">
-              <div class="flex-row-big-half">
+              <div class="flex-row">
                 <div class="flex-cell-inner">
                   <div class="chart-wrapper">
                     <h3 class="chart-title chart-title-center">天气预报</h3>
-                    <div class="chart-box" id="weatherInfo"></div>
+                    <div class="chart-box" id="weatherInfo">
+                      <div class="flex-row" style="height:100%">
+                        <div class="flex-cell flex-cell-full noborder">
+                          <div class="flex-row" style="justify-content: space-between;">
+                            <span class="today-item" v-model="todayData">{{todayData}}</span>
+                            <span class="location-item" v-model="locationData">{{locationData}}</span>
+                          </div>
+                          <div class="flex-row" style="margin-top:0.75em">
+                            <div class="flex-cell flex-cell-3 flex-cell-full noborder">
+                              <div class="icon-weather">
+                                <img
+                                  class="icon-img"
+                                  src="https://cdn.heweather.com/cond_icon/100.png"
+                                >
+                              </div>
+                              <div class="text-weather">
+                                <span style="font-size: 2.25em;color:#60f8f3;">33&#176;</span>
+                                <span style="font-size: 0.9em;">晴</span>
+                              </div>
+                              <div class="text-weather">
+                                <span style="font-size:0.85em">21~33&#8451;</span>
+                              </div>
+                            </div>
+                            <div class="flex-cell flex-cell-6 flex-cell-full noborder">
+                              <div class="flex-row">
+                                <div class="flex-cell flex-cell-2 flex-cell-full-border">
+                                  <div class="text-weather">
+                                    <span style="font-size:0.85em">6月14日</span>
+                                  </div>
+                                  <div class="icon-weather">
+                                    <img
+                                      class="icon-img-small"
+                                      src="https://cdn.heweather.com/cond_icon/100.png"
+                                    >
+                                  </div>
+                                  <div class="text-weather">
+                                    <span style="font-size:0.85em">阴</span>
+                                  </div>
+                                </div>
+                                <div class="flex-cell flex-cell-2 flex-cell-full-border">
+                                  <div class="text-weather">
+                                    <span style="font-size:0.85em">6月14日</span>
+                                  </div>
+                                  <div class="icon-weather">
+                                    <img
+                                      class="icon-img-small"
+                                      src="https://cdn.heweather.com/cond_icon/100.png"
+                                    >
+                                  </div>
+                                  <div class="text-weather">
+                                    <span style="font-size:0.85em">阴</span>
+                                  </div>
+                                </div>
+                                <div class="flex-cell flex-cell-2 flex-cell-full-border">
+                                  <div class="text-weather">
+                                    <span style="font-size:0.85em">6月14日</span>
+                                  </div>
+                                  <div class="icon-weather">
+                                    <img
+                                      class="icon-img-small"
+                                      src="https://cdn.heweather.com/cond_icon/100.png"
+                                    >
+                                  </div>
+                                  <div class="text-weather">
+                                    <span style="font-size:0.85em">阴</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div id="xsx" style="display:none"></div>
                   </div>
                 </div>
               </div>
-              <div class="flex-row-big">
+              <div class="flex-row">
                 <div class="flex-cell-inner flex-cell-unbottom">
                   <div class="chart-wrapper">
                     <h3 class="chart-title chart-title-center">报道进度TOP10</h3>
@@ -268,11 +341,7 @@
           <div class="flex-cell flex-cell-3">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-center">学院迎新教师之星</h3>
-              <div class="chart-box">
-                <div class="chart-loader">
-                  <div class="loader"></div>
-                </div>
-              </div>
+              <welcome-teacher></welcome-teacher>
             </div>
           </div>
           <div class="flex-cell flex-cell-3" style="margin-left:0">
@@ -287,12 +356,8 @@
           </div>
           <div class="flex-cell flex-cell-3" style="margin-left:0">
             <div class="chart-wrapper">
-              <h3 class="chart-title chart-title-center">办理终端占用比</h3>
-              <div class="chart-box">
-                <div class="chart-loader">
-                  <div class="loader"></div>
-                </div>
-              </div>
+              <h3 class="chart-title chart-title-center">办理终端占比</h3>
+              <terminal-ratio></terminal-ratio>
             </div>
           </div>
           <div class="flex-cell flex-cell-5" style="margin-left:0">
@@ -315,22 +380,33 @@ import "./style.less";
 import countTo from "vue-count-to";
 import echarts from "echarts";
 import BMap from "BMap";
+import ProgressRank from "@cp/ProgressRank";
+import TerminalRatio from "@cp/TerminalRatio";
+import WelcomeTeacher from "@cp/WelcomeTeacher";
+import ProvinceCount from "@cp/ProvinceCount";
 import {
   getConutInfos,
   getCSexChartData,
   getTopChartData,
-  getShiReportData
+  getShiReportData,
+  getWeatherData
 } from "@/api/server";
 
 export default {
   name: "",
   components: {
-    countTo
+    countTo,
+    ProgressRank,
+    TerminalRatio,
+    WelcomeTeacher,
+    ProvinceCount
   },
   data() {
     return {
       lat: "30.576279",
       lng: "104.071216",
+      todayData: "60-13 周四",
+      locationData: "成都",
       startVal: 0,
       enrolledNum: 0,
       reportNum: 0,
@@ -351,11 +427,6 @@ export default {
     this.getSexChart();
     this.initTopChart();
     this.initReportShiChart();
-
-    /* if (BMap) {
-      this.initMap();
-    }
-    this.initCity(); */
   },
   methods: {
     initCount() {
@@ -631,8 +702,174 @@ export default {
           _this.lat = res.center.lat;
           _this.lng = res.center.lng;
         }
-        console.log(res);
+        _this.getTq();
       });
+    },
+    getTq() {
+      getWeatherData({
+        type: "forecast",
+        location: this.lng + "," + this.lat,
+        ak: "5e24beb24f37462b8ac7b1d0135600bb"
+      }).then(res => {
+        if (res.success) {
+          var _data = res.data.HeWeather6[0];
+          this.locationData = _data.basic.parent_city;
+          const dates = this.formatTime(_data.update.loc);
+          this.todayData = dates.time + "  " + dates.week;
+        }
+      });
+    },
+    initWeather() {},
+    getNowWeatherIcon(cond_txt) {
+      var weatherIcon = "";
+      if (cond_txt == "晴") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/100.png";
+      } else if (cond_txt == "多云") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/101.png";
+      } else if (cond_txt == "少云") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/102.png";
+      } else if (cond_txt == "晴间多云 ") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/103.png";
+      } else if (cond_txt == "阴") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/104.png";
+      } else if (cond_txt == "有风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/200.png";
+      } else if (cond_txt == "平静") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/201.png";
+      } else if (cond_txt == "微风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/202.png";
+      } else if (cond_txt == "和风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/203.png";
+      } else if (cond_txt == "清风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/204.png";
+      } else if (cond_txt == "强风/劲风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/205.png";
+      } else if (cond_txt == "疾风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/206.png";
+      } else if (cond_txt == "大风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/207.png";
+      } else if (cond_txt == "烈风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/208.png";
+      } else if (cond_txt == "风暴") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/209.png";
+      } else if (cond_txt == "狂爆风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/210.png";
+      } else if (cond_txt == "飓风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/211.png";
+      } else if (cond_txt == "龙卷风") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/212.png";
+      } else if (cond_txt == "热带风暴") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/213.png";
+      } else if (cond_txt == "阵雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/300.png";
+      } else if (cond_txt == "强阵雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/301.png";
+      } else if (cond_txt == "雷阵雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/302.png";
+      } else if (cond_txt == "强雷阵雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/303.png";
+      } else if (cond_txt == "雷阵雨伴有冰雹") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/304.png";
+      } else if (cond_txt == "小雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/305.png";
+      } else if (cond_txt == "中雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/306.png";
+      } else if (cond_txt == "大雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/307.png";
+      } else if (cond_txt == "极端降雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/308.png";
+      } else if (cond_txt == "毛毛雨/细雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/309.png";
+      } else if (cond_txt == "暴雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/310.png";
+      } else if (cond_txt == "大暴雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/311.png";
+      } else if (cond_txt == "特大暴雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/312.png";
+      } else if (cond_txt == "冻雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/313.png";
+      } else if (cond_txt == "小到中雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/314.png";
+      } else if (cond_txt == "中到大雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/315.png";
+      } else if (cond_txt == "大到暴雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/316.png";
+      } else if (cond_txt == "暴雨到大暴雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/317.png";
+      } else if (cond_txt == "大暴雨到特大暴雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/318.png";
+      } else if (cond_txt == "雨") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/399.png";
+      } else if (cond_txt == "小雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/400.png";
+      } else if (cond_txt == "中雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/401.png";
+      } else if (cond_txt == "大雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/402.png";
+      } else if (cond_txt == "暴雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/403.png";
+      } else if (cond_txt == "雨夹雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/404.png";
+      } else if (cond_txt == "雨雪天气") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/405.png";
+      } else if (cond_txt == "阵雨夹雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/406.png";
+      } else if (cond_txt == "阵雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/407.png";
+      } else if (cond_txt == "小到中雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/408.png";
+      } else if (cond_txt == "中到大雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/409.png";
+      } else if (cond_txt == "大到暴雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/410.png";
+      } else if (cond_txt == "雪") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/499.png";
+      } else if (cond_txt == "薄雾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/500.png";
+      } else if (cond_txt == "雾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/501.png";
+      } else if (cond_txt == "霾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/502.png";
+      } else if (cond_txt == "扬沙") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/503.png";
+      } else if (cond_txt == "浮尘") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/504.png";
+      } else if (cond_txt == "沙尘暴") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/507.png";
+      } else if (cond_txt == "强沙尘暴") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/508.png";
+      } else if (cond_txt == "浓雾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/509.png";
+      } else if (cond_txt == "强浓雾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/510.png";
+      } else if (cond_txt == "中度霾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/511.png";
+      } else if (cond_txt == "重度霾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/512.png";
+      } else if (cond_txt == "严重霾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/513.png";
+      } else if (cond_txt == "大雾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/514.png";
+      } else if (cond_txt == "特强浓雾") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/515.png";
+      } else if (cond_txt == "热") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/900.png";
+      } else if (cond_txt == "冷") {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/901.png";
+      } else {
+        weatherIcon = "https://cdn.heweather.com/cond_icon/999.png";
+      }
+      return weatherIcon;
+    },
+    formatTime(value) {
+      var temDate = new Date(value);
+      var month = temDate.getMonth() + 1;
+      var day = temDate.getDate();
+      var today_week = temDate.getDay();
+      return {
+        time: month + "月" + day + "日",
+        week: "周" + "日一二三四五六".charAt(today_week)
+      };
     }
   }
 };
