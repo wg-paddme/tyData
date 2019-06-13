@@ -239,10 +239,13 @@
               </div>
             </div>
           </div>
-          <div class="flex-cell flex-cell-2" style="margin-left:0">
+          <div
+            class="flex-cell flex-cell-2 noborder"
+            style="margin-left:0;margin-top:0;padding:8px 0 0"
+          >
             <div class="flex-col">
               <div class="flex-row">
-                <div class="flex-cell-inner">
+                <div class="flex-cell flex-cell-inner">
                   <div class="chart-wrapper">
                     <h3 class="chart-title chart-title-center">天气预报</h3>
                     <div class="chart-box" id="weatherInfo">
@@ -298,7 +301,7 @@
                 </div>
               </div>
               <div class="flex-row">
-                <div class="flex-cell-inner flex-cell-unbottom">
+                <div class="flex-cell flex-cell-unbottom">
                   <div class="chart-wrapper">
                     <h3 class="chart-title chart-title-center">报道进度TOP10</h3>
                     <div class="chart-box" id="top_chart">
