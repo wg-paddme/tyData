@@ -62,7 +62,7 @@ export default {
             data: ["已报到人数"]
           },
           grid: {
-            top: 15,
+            top: 40,
             right: 0,
             width: "100%",
             containLabel: false,
