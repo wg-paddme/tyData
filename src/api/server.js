@@ -28,6 +28,16 @@ export const getWeatherData = (data) => {
   })
 }
 
+export const getWeatherNowData = (data) => {
+
+  return axios.request({
+    url: "/getWeatherNow",
+    data,
+    method: "post"
+  })
+}
+
+
 
 
 
