@@ -31,9 +31,9 @@ export default {
         },
         geo: {
           map: "云南",
-          layoutCenter: ["50%", "50%"], //地图位置
+          layoutCenter: ["50%", "50%"],
           layoutSize: "100%",
-          zoom: 1,
+          aspectScale: 1,
           label: {
             show: true,
             color: "#fff",
