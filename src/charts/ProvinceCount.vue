@@ -26,15 +26,6 @@
           grid: {
             left: 10
           },
-          legend: {
-            orient: 'vertical',
-            y: 'bottom',
-            x:'right',
-            data:['studentNumber'],
-            textStyle: {
-              color: '#fff'
-            }
-          },
           visualMap: {
             min: 0,
             max: 5000,
@@ -48,7 +39,7 @@
           },
           geo: {
             map: 'china',
-            zoom: 1.2,
+            zoom: 1,
             left: 60,
             label: {
               show: true,

@@ -21,7 +21,8 @@ module.exports = {
                 '@': resolve('src'),
                 '@api': resolve('src/api'),
                 '@cp': resolve('src/components'),
-                '@view': resolve('src/views')
+                '@view': resolve('src/views'),
+                '@chart': resolve('src/charts'),
             }
         },
         externals: {

@@ -300,8 +300,8 @@
                   </div>
                 </div>
               </div>
-              <div class="flex-row flex-row-big">
-                <div class="flex-cell flex-cell-unbottom">
+              <div class="flex-row">
+                <div class="flex-cell-inner flex-cell-unbottom">
                   <div class="chart-wrapper">
                     <h3 class="chart-title chart-title-center">报道进度TOP10</h3>
                     <div class="chart-box" id="top_chart">
@@ -354,11 +354,11 @@ import "./style.less";
 import countTo from "vue-count-to";
 import echarts from "echarts";
 import BMap from "BMap";
-import ProgressRank from "@cp/ProgressRank";
-import TerminalRatio from "@cp/TerminalRatio";
-import WelcomeTeacher from "@cp/WelcomeTeacher";
-import ProvinceCount from "@cp/ProvinceCount";
-import LinkProgress from "@cp/LinkProgress";
+import ProgressRank from "@chart/ProgressRank";
+import TerminalRatio from "@chart/TerminalRatio";
+import WelcomeTeacher from "@chart/WelcomeTeacher";
+import ProvinceCount from "@chart/ProvinceCount";
+import LinkProgress from "@chart/LinkProgress"
 import {
   getConutInfos,
   getCSexChartData,
