@@ -68,20 +68,15 @@ module.exports = {
     productionSourceMap: false,
     // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
     devServer: {
+
+        port: 1234,
         https: false,
         proxy: {
             '/api': {
-                target: '/',
+                target: 'http://192.168.2.44:4321',
                 changOrigin: true, //允许跨域
                 pathRewrite: {
                     '^/api': ''
-                }
-            },
-            '/api-weather': {
-                target: 'https://free-api.heweather.net/s6/weather',
-                changOrigin: true, //允许跨域
-                pathRewrite: {
-                    '^/api-weather': ''
                 }
             }
         }

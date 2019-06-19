@@ -10,8 +10,8 @@ module.exports = {
      * @description api请求基础路径
      */
     baseUrl: {
-        dev: 'https://www.easy-mock.com/mock/5cff406397049562b4c1a62b/',
-        pro: 'https://www.easy-mock.com/mock/5cff406397049562b4c1a62b/'
+        dev: 'http://192.168.2.44:4321',
+        pro: ''
     },
     /**
      * @description 默认打开的首页的路由name值，默认为home

@@ -1,5 +1,5 @@
 <template>
-  <div class="full-container">
+  <div class="full-container" ref="mainContainer">
     <header class="container-header">
       <h3 class="header-title">迎新概览</h3>
     </header>
@@ -53,7 +53,7 @@
                         <count-to
                           :start-val="0"
                           :end-val="linkNum"
-                          :duration="3600"
+                          :duration="2400"
                           class="card-panel-num"
                         />
                       </span>
@@ -69,7 +69,7 @@
                         <count-to
                           :start-val="0"
                           :end-val="teacherNum"
-                          :duration="3600"
+                          :duration="1800"
                           class="card-panel-num"
                         />
                       </span>
@@ -85,7 +85,7 @@
                         <count-to
                           :start-val="0"
                           :end-val="studentNum"
-                          :duration="3600"
+                          :duration="2800"
                           class="card-panel-num"
                         />
                       </span>
@@ -115,46 +115,22 @@
               </div>
               <!-- 各民族学生统计 -->
               <div class="flex-row flex-row-small">
-                <div class="flex-cell-inner">
+                <div
+                  class="flex-cell-inner"
+                  v-model="nations"
+                  v-for="(nation,index) in nations"
+                  :key="index"
+                  v-if="index<3"
+                >
                   <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-noicon chart-title-small">傣族</h3>
+                    <h3
+                      class="chart-title chart-title-noicon chart-title-small"
+                    >{{nation.nationName}}</h3>
                     <div class="count-box">
                       <span class="count-number count-number-small">
                         <count-to
                           :start-val="0"
-                          :end-val="top1Num"
-                          :duration="3600"
-                          class="card-panel-num"
-                        />
-                      </span>
-                      <span class="count-unit">人</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex-cell-inner">
-                  <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-noicon chart-title-small">土家族</h3>
-                    <div class="count-box">
-                      <span class="count-number count-number-small">
-                        <count-to
-                          :start-val="0"
-                          :end-val="top2Num"
-                          :duration="3600"
-                          class="card-panel-num"
-                        />
-                      </span>
-                      <span class="count-unit">人</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex-cell-inner">
-                  <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-noicon chart-title-small">维吾尔族</h3>
-                    <div class="count-box">
-                      <span class="count-number count-number-small">
-                        <count-to
-                          :start-val="0"
-                          :end-val="top3Num"
+                          :end-val="nation.studentNum"
                           :duration="3600"
                           class="card-panel-num"
                         />
@@ -166,30 +142,20 @@
               </div>
               <!-- 绿色通道统计 -->
               <div class="flex-row flex-row-half">
-                <div class="flex-cell-inner flex-cell-unbottom">
+                <div
+                  class="flex-cell-inner flex-cell-unbottom"
+                  v-model="channels"
+                  v-for="(item,index) in channels"
+                  :key="index"
+                  v-if="index<2"
+                >
                   <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-noicon">绿色通道</h3>
+                    <h3 class="chart-title chart-title-noicon">{{item.name}}</h3>
                     <div class="count-box">
                       <span class="count-number">
                         <count-to
                           :start-val="0"
-                          :end-val="greenChannelNum"
-                          :duration="3600"
-                          class="card-panel-num"
-                        />
-                      </span>
-                      <span class="count-unit">人</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex-cell-inner flex-cell-unbottom">
-                  <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-noicon">缓缴</h3>
-                    <div class="count-box">
-                      <span class="count-number">
-                        <count-to
-                          :start-val="0"
-                          :end-val="longNum"
+                          :end-val="item.studentNum"
                           :duration="3600"
                           class="card-panel-num"
                         />
@@ -217,12 +183,14 @@
               </div>
               <div class="flex-row-big-half">
                 <div class="flex-cell-inner flex-cell-unbottom">
-                  <div class="news-wrapper">
-                    <div class="news-list">考生号20190102****2233新生刘德华完成办理</div>
-                    <div class="news-list">考生号20190102****2233新生刘德华完成办理</div>
-                    <div class="news-list">考生号20190102****2233新生刘德华完成办理</div>
-                    <div class="news-list">考生号20190102****2233新生刘德华完成办理</div>
-                    <div class="news-list">考生号20190102****2233新生刘德华完成办理</div>
+                  <div class="chart-wrapper news-wrapper">
+                    <div
+                      class="news-list"
+                      v-model="studentLists"
+                      v-for="(item,index) in studentLists"
+                      v-if="index<7"
+                      :key="index"
+                    >考生号{{item.ksh}}新生{{item.studentName}}完成办理</div>
                   </div>
                 </div>
               </div>
@@ -231,15 +199,22 @@
           <div class="flex-cell flex-cell-6" style="margin-left:0">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-noicon">总人数-生源地省份</h3>
-              <div class="chart-box" id="dt">
-                <Swiper  interval="30000">
-                  <Slide>
-                    <province-count></province-count>
-                  </Slide>
-                  <Slide>
-                    <yunNanChart></yunNanChart>
-                  </Slide>
-                </Swiper>
+              <div class="chart-box" v-show="isShowMapChart">
+                <div v-show="isShowProvice" style="height:100%">
+                  <province-count
+                    :currentYear="currentYaer"
+                    @on-turn="setStatus"
+                    @on-height="setChildHeight"
+                  ></province-count>
+                </div>
+                <div v-show="!isShowProvice" style="height:100%">
+                  <yunNanChart ref="hideSlide" :currentYear="currentYaer" @on-turn="setStatus"></yunNanChart>
+                </div>
+              </div>
+              <div class="chart-box" v-show="!isShowMapChart">
+                <div class="chart-loader">
+                  <div class="loader"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -252,7 +227,7 @@
                 <div class="flex-cell flex-cell-inner">
                   <div class="chart-wrapper">
                     <h3 class="chart-title chart-title-center">天气预报</h3>
-                    <div class="chart-box" id="weatherInfo">
+                    <div class="chart-box" id="weatherInfo" v-show="isShowWeather">
                       <div class="flex-row" style="height:100%">
                         <div class="flex-cell flex-cell-full noborder">
                           <div class="flex-row" style="justify-content: space-between;">
@@ -300,14 +275,19 @@
                         </div>
                       </div>
                     </div>
+                    <div class="chart-box" v-show="!isShowWeather">
+                      <div class="chart-loader">
+                        <div class="loader"></div>
+                      </div>
+                    </div>
                     <div id="xsx" style="display:none"></div>
                   </div>
                 </div>
               </div>
               <div class="flex-row">
-                <div class="flex-cell-inner flex-cell-unbottom">
+                <div class="flex-cell flex-cell-unbottom">
                   <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-center">报道进度TOP10</h3>
+                    <h3 class="chart-title chart-title-center">报道进度TOP5</h3>
                     <div class="chart-box" id="top_chart">
                       <div class="chart-loader">
                         <div class="loader"></div>
@@ -323,19 +303,19 @@
           <div class="flex-cell flex-cell-3">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-center">学院迎新教师之星</h3>
-              <welcome-teacher></welcome-teacher>
+              <welcome-teacher :currentYear="currentYaer"></welcome-teacher>
             </div>
           </div>
           <div class="flex-cell flex-cell-3" style="margin-left:0">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-center">环节办理进度</h3>
-              <link-progress></link-progress>
+              <link-progress :currentYear="currentYaer"></link-progress>
             </div>
           </div>
           <div class="flex-cell flex-cell-3" style="margin-left:0">
             <div class="chart-wrapper">
               <h3 class="chart-title chart-title-center">办理终端占比</h3>
-              <terminal-ratio></terminal-ratio>
+              <terminal-ratio :currentYear="currentYaer"></terminal-ratio>
             </div>
           </div>
           <div class="flex-cell flex-cell-5" style="margin-left:0">
@@ -355,83 +335,155 @@
 </template>
 <script>
 import "./style.less";
-import {Swiper, Slide} from 'vue-swiper-component'
 import countTo from "vue-count-to";
 import echarts from "echarts";
 import BMap from "BMap";
-import ProgressRank from "@chart/ProgressRank";
+
 import TerminalRatio from "@chart/TerminalRatio";
 import WelcomeTeacher from "@chart/WelcomeTeacher";
 import ProvinceCount from "@chart/ProvinceCount";
 import LinkProgress from "@chart/LinkProgress";
 import yunNanChart from "@chart/yunnan";
 import {
-  getConutInfos,
+  getBasicCounts,
   getCSexChartData,
   getTopChartData,
   getShiReportData,
   getWeatherData,
-  getWeatherNowData
+  getSdudentListData
 } from "@/api/server";
+import { setInterval, clearInterval } from "timers";
 
 export default {
-  name: "",
+  name: "WelcomeHome",
   components: {
     countTo,
-    ProgressRank,
     TerminalRatio,
     WelcomeTeacher,
     ProvinceCount,
     LinkProgress,
-    Swiper,
-    Slide,
     yunNanChart
   },
   data() {
     return {
-      lat: "30.576279",
-      lng: "104.071216",
-      todayData: "60-13 周四",
-      locationData: "成都",
+      currentYaer: "",
+      weatherKey: "5e24beb24f37462b8ac7b1d0135600bb",
+      isShowProvice: true,
+      isShowMapChart: true,
+      isShowWeather: false,
+      lat: "",
+      lng: "",
+      todayData: "",
+      locationData: "",
       iconImg: "https://cdn.heweather.com/cond_icon/100.png",
-      todayTemperature: "20",
-      todayTempMin: "16",
-      todayTempMax: "30",
+      todayTemperature: "0",
+      todayTempMin: "0",
+      todayTempMax: "0",
       todayWeather: "晴",
       nextThreeWeather: [],
       startVal: 0,
       enrolledNum: 0,
       reportNum: 0,
-      linkNum: 6,
-      teacherNum: 33,
-      studentNum: 3333,
-      minoritiesNum: 2281,
-      top1Num: 220,
-      top2Num: 433,
-      top3Num: 100,
-      greenChannelNum: 3333,
-      longNum: 111
+      linkNum: 0,
+      teacherNum: 0,
+      studentNum: 0,
+      minoritiesNum: 0,
+      nations: [],
+      channels: [],
+      studentLists: [],
+      defaultsOption: null,
+      countTimer: null,
+      sextTimer: null,
+      studentTimer: null,
+      topTimer: null,
+      reportTimer: null,
+      slideTimer: null
     };
   },
+  created() {
+    this.currentYaer = this.getUrlParam("year") || "2018";
+  },
   mounted() {
-    this.initCity();
-    this.initCount();
-    this.getSexChart();
-    this.initTopChart();
-    this.initReportShiChart();
+    this.renderMain();
+    this.countTimer = setInterval(this.initCount, 200000);
+    this.sextTimer = setInterval(this.getSexChart, 200000);
+    this.studentTimer = setInterval(this.initStudentTable, 200000);
+    this.topTimer = setInterval(this.initTopChart, 200000);
+    this.reportTimer = setInterval(this.initReportShiChart, 200000);
+  },
+  watch: {
+    isShowProvice(newData, oldData) {
+      if (newData === false) {
+        this.$refs.hideSlide.resizeChart(this.defaultsOption);
+      }
+    }
   },
   methods: {
+    renderMain() {
+      this.initCity();
+      this.initCount();
+      this.getSexChart();
+      this.initStudentTable();
+      this.initTopChart();
+      this.initReportShiChart();
+      this.slideTimer = setInterval(this.turnMap, 100000);
+    },
+    getUrlParam(name) {
+      var sReg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var sResult = window.location.search.substr(1).match(sReg);
+      if (sResult != null) return unescape(sResult[2]);
+      return null;
+    },
+    setStatus(isShow) {
+      this.isShowMapChart = isShow;
+    },
+    turnMap() {
+      this.isShowProvice = !this.isShowProvice;
+    },
+    setChildHeight(parma) {
+      this.defaultsOption = parma;
+    },
     initCount() {
-      getConutInfos().then(res => {
-        if (res.success) {
-          this.enrolledNum = res.data.enrolledNum;
-          this.reportNum = res.data.reportNum;
-        }
-      });
+      getBasicCounts({
+        year: this.currentYaer
+      })
+        .then(res => {
+          if (res.success) {
+            const _data = res.content;
+            this.enrolledNum = _data.zsrs;
+            this.reportNum = _data.bdrs;
+            if (_data.handle) {
+              this.linkNum = _data.handle.stepNum;
+              this.teacherNum = _data.handle.teacherNum;
+              this.studentNum = _data.handle.studentNum;
+            }
+            this.minoritiesNum = _data.notionStudentTotal;
+            if (_data.nation) {
+              this.nations = _data.nation;
+            }
+            if (_data.channelType) {
+              _data.channelType.forEach(channel => {
+                channel.name = channel.channelType == "1" ? "绿色通道" : "缓交";
+              });
+              this.channels = _data.channelType;
+            }
+          }
+        })
+        .catch(err => {
+          clearInterval(this.countTimer);
+          clearInterval(this.sextTimer);
+          clearInterval(this.studentTimer);
+          clearInterval(this.topTimer);
+          clearInterval(this.reportTimer);
+          clearInterval(this.slideTimer);
+        });
     },
     getSexChart() {
-      getCSexChartData().then(res => {
+      getCSexChartData({
+        year: this.currentYaer
+      }).then(res => {
         if (res.success) {
+          var _data = res.content;
           const sexChart = echarts.init(
             document.getElementById("sexsChart"),
             "pie"
@@ -458,7 +510,16 @@ export default {
                 type: "pie",
                 radius: "65%",
                 center: ["50%", "50%"],
-                data: [],
+                data: [
+                  {
+                    value: Number(_data.male),
+                    name: "男生"
+                  },
+                  {
+                    value: Number(_data.female),
+                    name: "女生"
+                  }
+                ],
                 label: {
                   normal: {
                     show: true,
@@ -486,21 +547,28 @@ export default {
             animationDuration: 2000
           };
           sexChart.setOption(sexChartOpt);
-          var _data = res.data;
-          sexChart.setOption({
-            series: {
-              data: _data
-            }
-          });
         }
       });
     },
+    initStudentTable() {
+      getSdudentListData({
+        year: this.currentYaer
+      })
+        .then(res => {
+          if (res.success) {
+            this.studentLists = res.content;
+          }
+        })
+        .catch(err => {});
+    },
     initTopChart() {
-      getTopChartData().then(res => {
+      getTopChartData({
+        year: this.currentYaer
+      }).then(res => {
         if (res.success) {
           const xData = [];
           const yData = [];
-          const data = res.data;
+          const data = res.content;
           const topChartBox = echarts.init(
             document.getElementById("top_chart"),
             "shine"
@@ -515,7 +583,7 @@ export default {
             grid: {
               top: 10,
               bottom: 10,
-              left: 60
+              left: 80
             },
             xAxis: {
               show: false,
@@ -527,7 +595,7 @@ export default {
               axisLine: { show: false },
               axisTick: { show: false },
               axisLabel: {
-                fontSize: 12,
+                fontSize: 10,
                 color: "#ffffff"
               }
             },
@@ -542,7 +610,8 @@ export default {
                   color: "#ffffff",
                   emphasis: {
                     color: "#e6b600"
-                  }
+                  },
+                  formatter: "{c}%"
                 },
                 itemStyle: {
                   normal: {
@@ -565,7 +634,7 @@ export default {
           };
           topChartBox.setOption(topChartBoxOpt);
           for (let i in data) {
-            xData.push(data[i].count);
+            xData.push(Number(data[i].count));
             yData.push(data[i].name);
           }
           topChartBox.setOption({
@@ -583,9 +652,11 @@ export default {
       });
     },
     initReportShiChart() {
-      getShiReportData().then(res => {
+      getShiReportData({
+        year: this.currentYaer
+      }).then(res => {
         if (res.success) {
-          var _data = res.data;
+          var _data = res.content;
           const reportChar = echarts.init(
             document.getElementById("chart_report"),
             "bar"
@@ -630,18 +701,7 @@ export default {
               }
             },
             xAxis: {
-              data: [
-                "临床",
-                "计算机",
-                "养殖",
-                "助产",
-                "园艺",
-                "中医设备",
-                "中医学习",
-                "园艺22",
-                "园艺33",
-                "园艺3"
-              ],
+              data: _data.collegeDeptName,
 
               axisTick: { show: false },
               axisLabel: {
@@ -665,7 +725,7 @@ export default {
                 silent: true,
                 barWidth: "20%",
                 barGap: "-100%",
-                data: [220, 240, 120, 100, 80, 168, 140, 120, 250, 135]
+                data: _data.collegeDeptNum
               },
               {
                 type: "bar",
@@ -677,7 +737,7 @@ export default {
                     color: "#ce3948"
                   }
                 },
-                data: [144, 124, 13, 25, 56, 54, 78, 75, 124, 110]
+                data: _data.collageDeptQuasiNum
               }
             ]
           };
@@ -694,34 +754,41 @@ export default {
           _this.lat = res.center.lat;
           _this.lng = res.center.lng;
         }
-        _this.getTq();
+        _this.getHeWeather();
       });
     },
-    getTq() {
-      getWeatherNowData({
-        type: "forecast",
+    getHeWeather() {
+      this.initNowWeather();
+      this.initThreeWeather();
+    },
+    initNowWeather() {
+      getWeatherData({
+        type: "now",
         location: this.lng + "," + this.lat,
-        ak: "5e24beb24f37462b8ac7b1d0135600bb"
+        ak: this.weatherKey
       }).then(res => {
-        if (res.success) {
-          var _data = res.data[0];
+        if (res.success && (res.content && res.content.HeWeather6)) {
+          this.isShowWeather = true;
+          var _data = res.content.HeWeather6[0];
           this.locationData = _data.basic.parent_city;
           const dates = this.formatTime(_data.update.loc);
           this.todayData = dates.time + "  " + dates.week;
           this.initTodayWeather(_data.now);
         }
       });
+    },
+    initThreeWeather() {
       getWeatherData({
         type: "forecast",
         location: this.lng + "," + this.lat,
-        ak: "5e24beb24f37462b8ac7b1d0135600bb"
+        ak: this.weatherKey
       }).then(res => {
-        if (res.success) {
-          var _data = res.data;
+        if (res.success && (res.content && res.content.HeWeather6)) {
+          var _data = res.content.HeWeather6[0];
           for (var i = 0; i < 4; i++) {
             if (i == 0) continue;
             else {
-              var obj = _data[0]["daily_forecast"][i];
+              var obj = _data["daily_forecast"][i];
               this.nextThreeWeather.push({
                 nextDate: this.formatTime(obj.date).time,
                 iconImage: this.getNowWeatherIcon(obj.cond_txt_d),
@@ -729,7 +796,7 @@ export default {
               });
             }
           }
-          this.initNextWeather(_data[0].daily_forecast[0]);
+          this.initNextWeather(_data.daily_forecast[0]);
         }
       });
     },
@@ -741,7 +808,6 @@ export default {
     initNextWeather(data) {
       this.todayTempMin = data.tmp_min;
       this.todayTempMax = data.tmp_max;
-      console.log(this.nextThreeWeather);
     },
     getNowWeatherIcon(cond_txt) {
       var weatherIcon = "";
