@@ -237,7 +237,7 @@
                           <div class="flex-row" style="margin-top:0.75em">
                             <div class="flex-cell flex-cell-3 flex-cell-full noborder">
                               <div class="icon-weather">
-                                <img class="icon-img" :src="iconImg">
+                                <img class="icon-img" :src="iconImg" />
                               </div>
                               <div class="text-weather">
                                 <span
@@ -258,12 +258,13 @@
                                   v-model="nextThreeWeather"
                                   v-for="(item,index) in nextThreeWeather"
                                   :key="index"
+                                  v-if="index<3"
                                 >
                                   <div class="text-weather">
                                     <span style="font-size:0.75em;color:#60f8f3;">{{item.nextDate}}</span>
                                   </div>
                                   <div class="icon-weather">
-                                    <img class="icon-img-small" :src="item.iconImage">
+                                    <img class="icon-img-small" :src="item.iconImage" />
                                   </div>
                                   <div class="text-weather">
                                     <span style="font-size:0.85em;color:#60f8f3;">{{item.weather}}</span>
@@ -287,7 +288,7 @@
               <div class="flex-row">
                 <div class="flex-cell flex-cell-unbottom">
                   <div class="chart-wrapper">
-                    <h3 class="chart-title chart-title-center">报道进度TOP5</h3>
+                    <h3 class="chart-title chart-title-center">报到统计TOP5</h3>
                     <div class="chart-box" id="top_chart">
                       <div class="chart-loader">
                         <div class="loader"></div>
@@ -320,7 +321,7 @@
           </div>
           <div class="flex-cell flex-cell-5" style="margin-left:0">
             <div class="chart-wrapper">
-              <h3 class="chart-title chart-title-center">实时报道人数</h3>
+              <h3 class="chart-title chart-title-center">实时报到人数</h3>
               <div class="chart-box" id="chart_report">
                 <div class="chart-loader">
                   <div class="loader"></div>
@@ -397,7 +398,8 @@ export default {
       studentTimer: null,
       topTimer: null,
       reportTimer: null,
-      slideTimer: null
+      slideTimer: null,
+      weatherTimer: null
     };
   },
   created() {
@@ -405,11 +407,11 @@ export default {
   },
   mounted() {
     this.renderMain();
-    this.countTimer = setInterval(this.initCount, 200000);
-    this.sextTimer = setInterval(this.getSexChart, 200000);
-    this.studentTimer = setInterval(this.initStudentTable, 200000);
-    this.topTimer = setInterval(this.initTopChart, 200000);
-    this.reportTimer = setInterval(this.initReportShiChart, 200000);
+    this.countTimer = setInterval(this.initCount, 1000 * 60 * 5);
+    this.sextTimer = setInterval(this.getSexChart, 1000 * 60 * 5);
+    this.studentTimer = setInterval(this.initStudentTable, 1000 * 60 * 5);
+    this.topTimer = setInterval(this.initTopChart, 1000 * 60 * 5);
+    this.reportTimer = setInterval(this.initReportShiChart, 1000 * 60 * 5);
   },
   watch: {
     isShowProvice(newData, oldData) {
@@ -426,7 +428,7 @@ export default {
       this.initStudentTable();
       this.initTopChart();
       this.initReportShiChart();
-      this.slideTimer = setInterval(this.turnMap, 100000);
+      this.slideTimer = setInterval(this.turnMap, 1000 * 60 * 2.5);
     },
     getUrlParam(name) {
       var sReg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -524,13 +526,13 @@ export default {
                   normal: {
                     show: true,
                     formatter: function(data) {
-                      return data.percent;
+                      return data.percent + "%";
                     }
                   },
                   emphasis: {
                     show: true,
                     textStyle: {
-                      fontSize: "30",
+                      fontSize: "14",
                       fontWeight: "bold"
                     }
                   }
@@ -583,6 +585,7 @@ export default {
             grid: {
               top: 10,
               bottom: 10,
+              right: 40,
               left: 80
             },
             xAxis: {
@@ -595,7 +598,7 @@ export default {
               axisLine: { show: false },
               axisTick: { show: false },
               axisLabel: {
-                fontSize: 10,
+                fontSize: 11,
                 color: "#ffffff"
               }
             },
@@ -606,7 +609,7 @@ export default {
                 label: {
                   show: true,
                   position: "right",
-                  fontSize: 12,
+                  fontSize: 11,
                   color: "#ffffff",
                   emphasis: {
                     color: "#e6b600"
@@ -755,6 +758,7 @@ export default {
           _this.lng = res.center.lng;
         }
         _this.getHeWeather();
+        _this.weatherTimer = setInterval(_this.getHeWeather, 1000 * 60 * 10);
       });
     },
     getHeWeather() {

@@ -5,7 +5,7 @@
 import { getProvinceStudentCount } from "@/api/server";
 import echarts from "echarts";
 import "echarts/map/js/china.js";
-import { setTimeout } from "timers";
+import { setTimeout, clearInterval } from "timers";
 export default {
   props: {
     currentYear: {
@@ -15,21 +15,24 @@ export default {
   },
   data() {
     return {
-      vheight: 0
+      vheight: 0,
+      chinaMapTimer: null
     };
   },
   mounted() {
     setTimeout(this.initMapChina, 650);
-    setInterval(this.initMapChina, 200000);
+    setTimeout(this.initGetHeight, 650);
+    this.chinaMapTimer = setInterval(this.initMapChina, 1000 * 60 * 5);
   },
   methods: {
-    initMapChina() {
+    initGetHeight() {
       this.vheight = this.$refs.box1.clientHeight;
-      console.log(this.vheight);
       this.$emit("on-height", {
         height: this.vheight,
         width: this.$refs.box1.clientWidth
       });
+    },
+    initMapChina() {
       getProvinceStudentCount({
         year: this.currentYear
       })
@@ -62,6 +65,7 @@ export default {
                 max: maxNum,
                 calculable: true,
                 itemWidth: 10,
+                left: 50,
                 inRange: {
                   color: ["#50a3ba", "#eac736", "#d94e5d"]
                 },
@@ -79,7 +83,7 @@ export default {
                 label: {
                   show: true,
                   color: "#fff",
-                  fontSize: 10,
+                  fontSize: 9,
                   emphasis: {
                     show: false
                   }
@@ -119,6 +123,7 @@ export default {
         })
         .catch(err => {
           this.$emit("on-turn", false);
+          clearInterval(this.this.chinaMapTimer);
         });
     }
   }

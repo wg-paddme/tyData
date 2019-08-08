@@ -24,6 +24,7 @@
 <script>
 import { getWelcomeTeacherRank } from "@/api/server";
 import echarts from "echarts";
+import { clearInterval } from "timers";
 
 export default {
   props: {
@@ -35,23 +36,28 @@ export default {
   data() {
     return {
       teachers: "",
-      loaded: false
+      loaded: false,
+      starTimer: null
     };
   },
   mounted() {
     this._getWelcomeTeacherRank();
-    setInterval(this._getWelcomeTeacherRank, 200000);
+    this.starTimer = setInterval(this._getWelcomeTeacherRank, 1000 * 60 * 5);
   },
   methods: {
     _getWelcomeTeacherRank() {
       getWelcomeTeacherRank({
         year: this.currentYear
-      }).then(res => {
-        if (res.success) {
-          this.loaded = true;
-          this.teachers = res.content;
-        }
-      });
+      })
+        .then(res => {
+          if (res.success) {
+            this.loaded = true;
+            this.teachers = res.content;
+          }
+        })
+        .catch(err => {
+          clearInterval(this.starTimer);
+        });
     }
   }
 };

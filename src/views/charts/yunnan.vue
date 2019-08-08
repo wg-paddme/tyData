@@ -68,12 +68,13 @@ export default {
               },
               geo: {
                 map: "云南",
-                width: this.vheight / 0.75,
+                width: this.vheight / 0.9,
                 height: this.vheight,
                 label: {
                   show: true,
                   color: "#fff",
-                  fontSize: 10,
+                  fontSize: 9,
+                  position: ["50%", "50%"],
                   emphasis: {
                     show: false
                   }
