@@ -496,6 +496,10 @@ export default {
               subtext: "",
               left: "center"
             },
+            grid:{
+              left: '1%',
+              right: '1%'
+            },
             legend: {
               bottom: 0,
               left: "center",
